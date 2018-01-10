@@ -1,5 +1,6 @@
 package team.waps.recipe.bootstrap;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -30,6 +31,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         recipeRepository.saveAll(getRecipes());
+        log.debug("Initializing data from bootstrap class");
     }
 
     private List<Recipe> getRecipes() {
@@ -117,23 +119,15 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
             "of other ingredients stop you from making guacamole.\n" +
             "To extend a limited supply of avocados, add either sour cream or cottage cheese to your guacamole dip. " +
             "Purists may be horrified, but so what? It tastes great.\n");
-        guacNotes.setRecipe(guacRecipe);
         guacRecipe.setNotes(guacNotes);
-
-        guacRecipe.getIngredients().add(new Ingredient("ripe avocados", new BigDecimal(2), guacRecipe, eachUom));
-        guacRecipe.getIngredients().add(new Ingredient("Kosher salt", new BigDecimal(.5), guacRecipe, teaspoonUom));
-        guacRecipe.getIngredients().add(new Ingredient("of fresh lime juice or lemon juice", new BigDecimal(1),
-            guacRecipe, tableSpoonUom));
-        guacRecipe.getIngredients().add(new Ingredient("of minced red onion or thinly sliced green onion", new
-            BigDecimal(2), guacRecipe, tableSpoonUom));
-        guacRecipe.getIngredients().add(new Ingredient("serrano chiles, stems and seeds removed, minced", new
-            BigDecimal(2), guacRecipe, eachUom));
-        guacRecipe.getIngredients().add(new Ingredient("cilantro (leaves and tender stems), finely chopped", new
-            BigDecimal(2), guacRecipe, tableSpoonUom));
-        guacRecipe.getIngredients().add(new Ingredient("of freshly grated black pepper", new BigDecimal(1),
-            guacRecipe, dashUom));
-        guacRecipe.getIngredients().add(new Ingredient("ripe tomato, seeds and pulp removed, chopped", new BigDecimal
-            (.5), guacRecipe, eachUom));
+        guacRecipe.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUom));
+        guacRecipe.addIngredient(new Ingredient("Kosher salt", new BigDecimal(.5), teaspoonUom));
+        guacRecipe.addIngredient(new Ingredient("of fresh lime juice or lemon juice", new BigDecimal(1), tableSpoonUom));
+        guacRecipe.addIngredient(new Ingredient("of minced red onion or thinly sliced green onion", new BigDecimal(2), tableSpoonUom));
+        guacRecipe.addIngredient(new Ingredient("serrano chiles, stems and seeds removed, minced", new BigDecimal(2), eachUom));
+        guacRecipe.addIngredient(new Ingredient("cilantro (leaves and tender stems), finely chopped", new BigDecimal(2), tableSpoonUom));
+        guacRecipe.addIngredient(new Ingredient("of freshly grated black pepper", new BigDecimal(1), dashUom));
+        guacRecipe.addIngredient(new Ingredient("ripe tomato, seeds and pulp removed, chopped", new BigDecimal(.5), eachUom));
 
         recipes.add(guacRecipe);
 
@@ -165,22 +159,17 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         spicyNotes.setRecipeNotes("Look for ancho chile powder with the Mexican ingredients at your grocery store, on" +
             " buy it online. (If you can't find ancho chili powder, you replace the ancho chili, the oregano, and the" +
             " cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)\n");
-        spicyNotes.setRecipe(spicyRecipe);
         spicyRecipe.setNotes(spicyNotes);
-        spicyRecipe.getIngredients().add(new Ingredient("ancho chili powder", new BigDecimal(2), spicyRecipe,
-            tableSpoonUom));
-        spicyRecipe.getIngredients().add(new Ingredient("dried oregano", new BigDecimal(1), spicyRecipe, teaspoonUom));
-        spicyRecipe.getIngredients().add(new Ingredient("dried cumin", new BigDecimal(1), spicyRecipe, teaspoonUom));
-        spicyRecipe.getIngredients().add(new Ingredient("sugar", new BigDecimal(1), spicyRecipe, teaspoonUom));
-        spicyRecipe.getIngredients().add(new Ingredient("salt", new BigDecimal(0.5), spicyRecipe, teaspoonUom));
-        spicyRecipe.getIngredients().add(new Ingredient("clove garlic, finely chopped", new BigDecimal(1),
-            spicyRecipe, eachUom));
-        spicyRecipe.getIngredients().add(new Ingredient("finely grated orange zest", new BigDecimal(1), spicyRecipe,
-            tableSpoonUom));
-        spicyRecipe.getIngredients().add(new Ingredient("orange juice", new BigDecimal(3), spicyRecipe, tableSpoonUom));
-        spicyRecipe.getIngredients().add(new Ingredient("olive oil", new BigDecimal(2), spicyRecipe, tableSpoonUom));
-        spicyRecipe.getIngredients().add(new Ingredient("boneless chicken thighs", new BigDecimal(6), spicyRecipe,
-            eachUom));
+        spicyRecipe.addIngredient(new Ingredient("ancho chili powder", new BigDecimal(2), tableSpoonUom));
+        spicyRecipe.addIngredient(new Ingredient("dried oregano", new BigDecimal(1), teaspoonUom));
+        spicyRecipe.addIngredient(new Ingredient("dried cumin", new BigDecimal(1), teaspoonUom));
+        spicyRecipe.addIngredient(new Ingredient("sugar", new BigDecimal(1), teaspoonUom));
+        spicyRecipe.addIngredient(new Ingredient("salt", new BigDecimal(0.5), teaspoonUom));
+        spicyRecipe.addIngredient(new Ingredient("clove garlic, finely chopped", new BigDecimal(1), eachUom));
+        spicyRecipe.addIngredient(new Ingredient("finely grated orange zest", new BigDecimal(1), tableSpoonUom));
+        spicyRecipe.addIngredient(new Ingredient("orange juice", new BigDecimal(3), tableSpoonUom));
+        spicyRecipe.addIngredient(new Ingredient("olive oil", new BigDecimal(2), tableSpoonUom));
+        spicyRecipe.addIngredient(new Ingredient("boneless chicken thighs", new BigDecimal(6), eachUom));
 
         recipes.add(spicyRecipe);
 
