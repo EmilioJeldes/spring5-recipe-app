@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport"
@@ -9,5 +9,15 @@
 </head>
 <body>
   <h1>My Recipes!!!</h1>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Description</th>
+    </tr>
+    <tr th:each="recipe : ${recipes}">
+      <td th:text="${recipe.id}">asd</td>
+      <td th:text="${recipe.description}">asd</td>
+    </tr>
+  </table>
 </body>
 </html>
