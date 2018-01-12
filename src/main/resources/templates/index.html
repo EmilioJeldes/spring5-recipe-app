@@ -5,19 +5,43 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+  <link rel="stylesheet" href="../static/css/styles.css" th:href="@{css/styles.css}">
   <title>Document</title>
 </head>
 <body>
-  <h1>My Recipes!!!</h1>
-  <table>
-    <tr>
-      <th>Id</th>
-      <th>Description</th>
-    </tr>
-    <tr th:each="recipe : ${recipes}">
-      <td th:text="${recipe.id}">asd</td>
-      <td th:text="${recipe.description}">asd</td>
-    </tr>
-  </table>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 mx-auto mt-5">
+        <div class="card card-primary border-primary">
+          <div class="card-header text-white bg-primary">
+            <h4 class="card-title">My Recipes!!!</h4>
+          </div>
+          <div class="card-body">
+            <!-- Table -->
+            <table class="table table-hover">
+              <!-- thead -->
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Description</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+              <!-- tbody -->
+              <tbody>
+                <tr th:each="recipe : ${recipes}">
+                  <td th:text="${recipe.id}">asd</td>
+                  <td th:text="${recipe.description}">asd</td>
+                  <td><a href="#" th:href="@{'/recipe/show/'+${recipe.id}}">View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

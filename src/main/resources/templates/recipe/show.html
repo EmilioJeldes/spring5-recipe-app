@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+        integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"
+        th:href="@{/webjars/bootstrap/4.0.0-beta.3/css/bootstrap.min.css}">
+  <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+  <link rel="stylesheet" href="../../static/css/styles.css" th:href="@{css/styles.css}">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <!--/*@thymesVar id="recipe" type="team.waps.recipe.models.Recipe"*/-->
+    <h1 class="h1 text-center my-4" th:text="${recipe.description}">Recipe Description</h1>
+    <!-- card -->
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        <div class="card bg-danger text-white">
+          <img style="max-height: 400px"
+               class="card-img-top"
+               src="https://unareceta.com/wp-content/uploads/2014/03/guacamole-con-queso-818x546.jpg"
+               alt="Guacamole IMG">
+          <div class="card-body p-2">
+            <div class="row">
+              <div class="col-md-4 text-center">
+                <p class="m-0">Serves:</p>
+                <p class="h5" th:text="${recipe.servings}+ ' People'">4 People</p>
+              </div>
+              <div class="col-md-4 text-center">
+                <p class="m-0">Prep Time:</p>
+                <p class="h5" th:text="${recipe.prepTime}">10 min</p>
+              </div>
+              <div class="col-md-4 text-center">
+                <p class="m-0">Cook Time:</p>
+                <p class="h5" th:text="${recipe.cookTime}">5 min</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- end card -->
+
+    <!-- Categories and difficulty -->
+    <div class="row pt-4 pb -2">
+      <div class="col-md-10 mx-auto">
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="d-inline-flex" th:each="categorie : ${recipe.categories}">
+              <li class="m-1 btn btn-outline-danger" th:text="${categorie.description}">category1</li>
+            </ul>
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <p class="m-0">Difficulty: <span class="h5 font-weight-bold text-lowercase" th:text="${recipe.difficulty}">Easy</span></p>
+          </div>
+        </div>
+        <hr class="mb-0"/>
+        <p class="text-right m-0 p-0"><a href="#" th:href="${recipe.url}">Source Recipe</a></p>
+      </div>
+    </div> <!-- End categories -->
+
+    <!-- Ingredients -->
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        <h3 class="py-2">Ingredients</h3>
+        <table class="table table-hover" th:each="ingredient : ${recipe.ingredients}">
+          <td th:text="${ingredient.amount}+' '+${ingredient.uom.description}+' '+${ingredient.description}">1
+          </td>
+        </table>
+      </div>
+    </div>
+
+    <!-- Directions -->
+    <div class="row py-4">
+      <div class="col-md-10 mx-auto">
+        <h3>Directions</h3>
+        <blockquote>
+          <p class="pb-4" th:text="${recipe.directions}">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita facere laudantium ratione reiciendis repellat. Autem
+            consequatur doloremque ducimus, eaque in ipsam iste, iure mollitia nisi officia unde vero, voluptas voluptatum.
+          </p>
+        </blockquote>
+        <hr/>
+      </div>
+    </div> <!-- End Directions -->
+
+    <!-- Notes -->
+    <div class="row py-4">
+      <div class="col-md-10 mx-auto">
+        <h3>Notes</h3>
+        <blockquote>
+          <p class="pb-4" th:text="${recipe.notes.recipeNotes}">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate eos laudantium nihil. Accusamus, cumque deserunt dicta
+            distinctio, dolore enim est ex iure odit, qui quo reiciendis repellat similique tempora vitae!
+          </p>
+        </blockquote>
+      </div>
+    </div> <!-- End Notes -->
+
+
+  </div>
+</body>
+</html>
