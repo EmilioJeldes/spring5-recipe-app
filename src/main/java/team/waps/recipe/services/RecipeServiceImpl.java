@@ -3,6 +3,10 @@ package team.waps.recipe.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import team.waps.recipe.commands.RecipeCommand;
+import team.waps.recipe.converters.RecipeCommandToRecipe;
+import team.waps.recipe.converters.RecipeToRecipeCommand;
 import team.waps.recipe.models.Recipe;
 import team.waps.recipe.repositories.RecipeRepository;
 
@@ -14,11 +18,16 @@ import java.util.Set;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
+    private final RecipeCommandToRecipe recipeCommandToRecipe;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand
+        recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
+        this.recipeCommandToRecipe = recipeCommandToRecipe;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
 
     @Override
@@ -40,4 +49,24 @@ public class RecipeServiceImpl implements RecipeService {
         return optionalRecipe.get();
     }
 
+    @Transactional
+    @Override
+    public RecipeCommand findCommandById(Long l) {
+        return recipeToRecipeCommand.convert(findById(l));
+    }
+
+    @Transactional
+    @Override
+    public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
+        Recipe detachedRecipe = recipeCommandToRecipe.convert(recipeCommand);
+
+        Recipe recipeSaved = recipeRepository.save(detachedRecipe);
+        log.debug("Saved recipeId: " + recipeSaved.getId());
+        return recipeToRecipeCommand.convert(recipeSaved);
+    }
+
+    @Override
+    public void deleteById(Long idToDelete) {
+        recipeRepository.deleteById(idToDelete);
+    }
 }

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+        integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"
+        th:href="@{/webjars/bootstrap/4.0.0-beta.3/css/bootstrap.min.css}">
+  <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+  <link rel="stylesheet" href="../../static/css/styles.css" th:href="@{css/styles.css}">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div class="row d-flex justify-content-between mt-4 mx-auto">
+      <div class="col-md-2"><a href="/" class="btn btn-outline-primary">Index</a></div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-10 mx-auto">
+        <!--/*@thymesVar id="recipe" type="team.waps.recipe.models.Recipe"*/-->
+        <!-- FORM -->
+        <form th:action="@{/recipe/}" th:object="${recipe}">
+          <input type="hidden" th:field="*{id}"/>
+          <div class="card border-primary"> <!-- card -->
+            <div class="card-header bg-primary text-white"> <!-- card header -->
+              <h5 class="h4">Edit Recipe Description</h5>
+            </div>
+            <div class="card-body"> <!-- card body -->
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Recipe Description: </label>
+                  <input type="text" class="form-control" th:field="*{description}"/>
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="pb-2">Categories</label><br/>
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input"/>
+                    <label class="form-check-label">Mexican</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input"/>
+                    <label class="form-check-label">American</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input"/>
+                    <label class="form-check-label">Chinese</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input"/>
+                    <label class="form-check-label">Indian</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Prep Time</label>
+                  <input type="text" class="form-control" th:field="*{prepTime}"/>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Cook Time</label>
+                  <input type="text" class="form-control" th:field="*{cookTime}"/>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Difficulty</label>
+                  <select class="form-control">
+                    <option value="Easy">Easy</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Kind of hard">Kind of Hard</option>
+                    <option value="Hard">Hard</option>
+                  </select>
+                </div>
+              </div>
+              <!-- FORM ROW -->
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Servings</label>
+                  <input type="text" class="form-control" th:field="*{servings}"/>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Source</label>
+                  <input type="text" class="form-control" th:field="*{source}"/>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Url</label>
+                  <input type="text" class="form-control" th:field="*{url}"/>
+                </div>
+              </div> <!-- End Form ROW -->
+            </div>
+          </div>
+
+          <!-- Ingredients -->
+          <div class="card border-primary my-4"> <!-- card -->
+            <div class="card-header bg-primary text-white"> <!-- card header -->
+              <div class="row">
+                <div class="col-md-11">
+                  <h5 class="h4">Ingredients</h5>
+                </div>
+                <div class="col-md-1">
+                  <a href="#" class="btn btn-outline-light">Edit</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body"> <!-- card body -->
+              <ul>
+                <li th:remove="all">1 Cup of milk</li>
+                <li th:remove="all">1 Teaspoon of chocolate</li>
+                <li th:each="ingredient : ${recipe.ingredients}"
+                    th:text="${ingredient.getAmount() + ' ' +
+                    ingredient.uom.getDescription() + ' - ' +
+                    ingredient.getDescription()}">
+                  1 Teaspoon of sugar
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Directions -->
+          <div class="card border-primary my-4">
+            <div class="card-header bg-primary text-white">
+              <h5 class="h4">Directions</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <textarea class="form-control" rows="3" th:field="*{directions}"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="card border-primary my-4">
+            <div class="card-header bg-primary text-white">
+              <h5 class="h4">Notes</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <textarea class="form-control" rows="3" th:field="*{notes.recipeNotes}"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary my-5">Submit</button>
+
+        </form> <!-- End form -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

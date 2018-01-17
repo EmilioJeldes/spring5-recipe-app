@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+        integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"
+        th:href="@{/webjars/bootstrap/4.0.0-beta.3/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}"/>
+  <link rel="stylesheet" href="../../../static/css/styles.css" th:href="@{css/styles.css}"/>
+  <title>Document</title>
+</head>
+<body>
+  <!-- container -->
+  <div class="container mt-4">
+    <div class="col-md-2">
+      <a href="#" th:href="@{'/recipe/'+${recipe.id}+'/show'}" class="btn btn-outline-primary">Back</a>
+    </div>
+
+    <div class="row mt-4"> <!-- row -->
+
+      <div class="col-md-10 mx-auto">
+        <!-- card -->
+        <div class="card border-primary">
+          <!-- card header -->
+          <div class="card-header bg-primary text-white">
+            <h5 class="h4">Ingredients</h5>
+          </div>
+          <!-- card body -->
+          <div class="card-body">
+
+            <div class="table-responsive">
+              <!-- Table -->
+              <table class="table table-hover">
+                <thead> <!-- thead -->
+                  <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>View</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody> <!-- tbody -->
+                  <tr th:remove="all">
+                    <td>123</td>
+                    <td>Tasty Goodness 1</td>
+                    <td><a href="#">View</a></td>
+                    <td><a href="#">Update</a></td>
+                    <td><a href="#">Delete</a></td>
+                  </tr>
+                  <tr th:remove="all">
+                    <td>1212343</td>
+                    <td>Tasty Goodness 2</td>
+                    <td><a href="#">View</a></td>
+                    <td><a href="#">Update</a></td>
+                    <td><a href="#">Delete</a></td>
+                  </tr>
+                  <tr th:each="ingredient : ${recipe.ingredients}">
+                    <td th:text="${ingredient.id}">334</td>
+                    <td th:text="${ingredient.amount}+ ' '+${ingredient.uom.description}+' '+${ingredient.description}">Tasty Goodness
+                      3
+                    </td>
+                    <td><a href="#" th:href="@{'/recipe/'+${recipe.id}+'/ingredient/'+${ingredient.id}+'/show'}">View</a></td>
+                    <td><a href="#" th:href="@{'/recipe/'+${recipe.id}+'/ingredient/'+${ingredient.id}+'/update'}">Update</a></td>
+                    <td><a href="#" th:href="@{'/recipe/'+${recipe.id}+'/ingredient/'+${ingredient.id}+'/delete'}">Delete</a></td>
+                  </tr>
+                </tbody>
+
+              </table> <!-- End table -->
+
+            </div>
+          </div>
+        </div> <!-- end card -->
+      </div>
+
+    </div> <!-- end row -->
+
+  </div> <!-- End container -->
+</body>
+</html>
