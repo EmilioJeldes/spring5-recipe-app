@@ -15,7 +15,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="row d-flex justify-content-between mt-4 mx-auto">
+    <div class="row d-flex justify-content-between my-4 mx-auto">
       <div class="col-md-2"><a href="/" class="btn btn-outline-primary">Index</a></div>
     </div>
     <div class="row mt-4">
@@ -99,7 +99,7 @@
                   <h5 class="h4">Ingredients</h5>
                 </div>
                 <div class="col-md-1">
-                  <a href="#" class="btn btn-outline-light">Edit</a>
+                  <a href="#" th:href="@{'/recipe/'+${recipe.id}+'/ingredients'}" class="btn btn-outline-light">Edit</a>
                 </div>
               </div>
             </div>
