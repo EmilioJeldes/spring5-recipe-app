@@ -10,7 +10,7 @@ import team.waps.recipe.models.UnitOfMeasure;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -18,7 +18,6 @@ public class UnitOfMeasureRepositoryIT {
 
     @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
-
 
     @Before
     public void setUp() throws Exception {
@@ -29,5 +28,13 @@ public class UnitOfMeasureRepositoryIT {
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 
         assertEquals("Teaspoon", uomOptional.get().getDescription());
+    }
+
+    @Test
+    public void findByDescriptionCup() throws Exception {
+
+        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
+
+        assertEquals("Cup", uomOptional.get().getDescription());
     }
 }

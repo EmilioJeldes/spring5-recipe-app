@@ -11,7 +11,7 @@ public class RecipeToRecipeCommandTest {
 
     private static final Long RECIPE_ID = 1l;
     private static final Integer COOK_TIME = Integer.valueOf("5");
-    private static final String DESCRIPTION = "descripcion";
+    private static final String DESCRIPTION = "description";
     private static final Difficulty DIFFICULTY = Difficulty.EASY;
     private static final String DIRECTIONS = "directions";
     private static final Integer PREP_TIME = Integer.valueOf("20");
@@ -23,13 +23,14 @@ public class RecipeToRecipeCommandTest {
     private static final Long CAT_ID2 = 6l;
     private static final Long ING_ID1 = 2l;
     private static final Long ING_ID2 = 6l;
+    private static final Byte[] IMAGE = {Byte.valueOf("1"), Byte.valueOf("2")};
 
     RecipeToRecipeCommand converter;
 
     @Before
     public void setUp() throws Exception {
         converter = new RecipeToRecipeCommand(new CategoryToCategoryCommand(), new IngredientToIngredientCommand(new
-            UnitOfMeasureToUnitOfMeasureCommand()), new NotesToNotesCommand());
+                UnitOfMeasureToUnitOfMeasureCommand()), new NotesToNotesCommand());
     }
 
     @Test
@@ -72,6 +73,7 @@ public class RecipeToRecipeCommandTest {
         recipe.getCategories().add(category2);
         recipe.addIngredient(ingredient1);
         recipe.addIngredient(ingredient2);
+        recipe.setImage(IMAGE);
 
         // when
         RecipeCommand command = converter.convert(recipe);
@@ -88,6 +90,8 @@ public class RecipeToRecipeCommandTest {
         assertEquals(SOURCE, command.getSource());
         assertEquals(URL, command.getUrl());
         assertEquals(NOTES_ID, command.getNotes().getId());
+        assertEquals(IMAGE[0], command.getImage()[0]);
+        assertEquals(IMAGE[1], command.getImage()[1]);
         assertEquals(2, command.getCategories().size());
         assertEquals(2, command.getIngredients().size());
     }

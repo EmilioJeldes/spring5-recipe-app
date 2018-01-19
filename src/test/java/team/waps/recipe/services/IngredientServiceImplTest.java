@@ -22,9 +22,12 @@ import static org.mockito.Mockito.*;
 
 public class IngredientServiceImplTest {
 
+    private static final Long ING_ID1 = 1L;
+    private static final Long ING_ID2 = 2L;
+    private static final Long ING_ID3 = 3L;
+    private static final String DESCRIPTION = "Description";
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
-
     @Mock
     private RecipeRepository recipeRepository;
 
@@ -41,7 +44,7 @@ public class IngredientServiceImplTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ingredientService = new IngredientServiceImpl(recipeRepository, ingredientToIngredientCommand, ingredientCommandToIngredient,
-            unitOfMeasureRepository);
+                unitOfMeasureRepository);
     }
 
     @Test
@@ -95,6 +98,34 @@ public class IngredientServiceImplTest {
 
         // then
         assertEquals(Long.valueOf(3L), savedCommand.getId());
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).save(any(Recipe.class));
+    }
+
+    @Test
+    public void testDeleteIngredientById() {
+        //given
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(ING_ID1);
+        ingredient1.setDescription(DESCRIPTION);
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(ING_ID2);
+        Ingredient ingredient3 = new Ingredient();
+        ingredient3.setId(ING_ID3);
+
+        Recipe recipe = new Recipe();
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
+        recipe.addIngredient(ingredient3);
+        Optional<Recipe> optionalRecipe = Optional.of(recipe);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+        when(recipeRepository.save(any(Recipe.class))).thenReturn(new Recipe());
+
+        // when
+        ingredientService.deleteIngredientById(anyLong(), ING_ID1);
+
+        // then
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
     }
