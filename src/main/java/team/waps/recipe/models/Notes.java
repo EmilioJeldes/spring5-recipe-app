@@ -1,10 +1,16 @@
 package team.waps.recipe.models;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"recipe"})
+@NoArgsConstructor
 @Entity
 public class Notes {
 

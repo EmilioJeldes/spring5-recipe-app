@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import team.waps.recipe.converters.RecipeCommandToRecipe;
 import team.waps.recipe.converters.RecipeToRecipeCommand;
+import team.waps.recipe.exceptions.NotFoundException;
 import team.waps.recipe.models.Recipe;
 import team.waps.recipe.repositories.RecipeRepository;
 
@@ -64,6 +65,14 @@ public class RecipeServiceImplTest {
         verify(recipeRepository, never()).findAll();
     }
 
+    @Test(expected = NotFoundException.class)
+    public void testGetRecipeByIdNotFound() {
+        Optional<Recipe> recipeOptional = Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeSaved = recipeService.findById(1L);
+    }
+
     @Test
     public void testSaveRecipeCommand() {
 
@@ -71,15 +80,12 @@ public class RecipeServiceImplTest {
 
     @Test
     public void testDeleteById() throws Exception {
-
         //given
         Long idToDelete = Long.valueOf(2L);
 
         //when
         recipeService.deleteById(idToDelete);
-
-        //no 'when', since method has void return type
-
+        
         //then
         verify(recipeRepository, times(1)).deleteById(anyLong());
     }

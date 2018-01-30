@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import team.waps.recipe.commands.RecipeCommand;
 import team.waps.recipe.converters.RecipeCommandToRecipe;
 import team.waps.recipe.converters.RecipeToRecipeCommand;
+import team.waps.recipe.exceptions.NotFoundException;
 import team.waps.recipe.models.Recipe;
 import team.waps.recipe.repositories.RecipeRepository;
 
@@ -24,7 +25,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand
-        recipeToRecipeCommand) {
+            recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
         this.recipeCommandToRecipe = recipeCommandToRecipe;
         this.recipeToRecipeCommand = recipeToRecipeCommand;
@@ -40,11 +41,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(Long l) {
-        log.debug("Im in the service - findById");
         Optional<Recipe> optionalRecipe = recipeRepository.findById(l);
 
         if (!optionalRecipe.isPresent()) {
-            throw new RuntimeException("Recipe not found!");
+            throw new NotFoundException("Recipe Not Found, for id value of: " + l.toString());
         }
         return optionalRecipe.get();
     }

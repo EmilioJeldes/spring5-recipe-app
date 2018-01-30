@@ -54,9 +54,9 @@ public class UnitOfMeasureServiceImplTest {
         units.add(uom1);
         units.add(uom2);
         units.add(uom3);
+        when(unitOfMeasureRepository.findAll()).thenReturn(units);
 
         // when
-        when(unitOfMeasureRepository.findAll()).thenReturn(units);
         Set<UnitOfMeasureCommand> commandSet = unitOfMeasureService.listAllUoms();
 
         // then

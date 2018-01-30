@@ -1,15 +1,15 @@
 package team.waps.recipe.models;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@EqualsAndHashCode(exclude = {"categories", "ingredients", "notes"})
+@NoArgsConstructor
 public class Recipe {
 
     @Id
@@ -50,8 +50,9 @@ public class Recipe {
         }
     }
 
-    public void addIngredient(Ingredient ingredient) {
+    public Recipe addIngredient(Ingredient ingredient) {
         ingredient.setRecipe(this);
         this.ingredients.add(ingredient);
+        return this;
     }
 }

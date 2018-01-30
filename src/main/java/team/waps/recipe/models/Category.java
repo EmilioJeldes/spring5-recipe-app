@@ -1,14 +1,15 @@
 package team.waps.recipe.models;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
-@Entity
+@Getter
+@Setter
 @EqualsAndHashCode(exclude = {"recipes"})
+@NoArgsConstructor
+@Entity
 public class Category {
 
     @Id
